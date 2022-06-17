@@ -1,30 +1,31 @@
-// Code goes here!
 
-//Use constraints
-function merge<T extends object, U extends object>(objA: T, objB: U) {
-    return Object.assign(objA, objB);
+
+class DataStorage<T extends string | number | boolean> {
+  private data: T[] = [];
+
+  addItem(item: T) {
+    this.data.push(item);
+  }
+
+  removeItem(item: T) {
+    if (this.data.indexOf(item) === -1) {
+      return;
+    }
+    this.data.splice(this.data.indexOf(item), 1); // -1
+  }
+
+  getItems() {
+    return [...this.data];
+  }
 }
 
+const textStorage = new DataStorage<string>();
+textStorage.addItem('Max');
+textStorage.addItem('Manu');
+textStorage.addItem('Bao');
+textStorage.addItem('Thi');
+textStorage.removeItem('Max');
+textStorage.removeItem('Thi');
+console.log(textStorage.getItems());
 
-const mergeObj = merge<{name: string, hobbies: string[]}, {age: number}>({name: 'Bao', hobbies: ['play','game']}, {age:26});
-console.log(mergeObj.name)
-console.log(mergeObj.hobbies)
-
-
-// ============= another generic function =============================
-interface Lengthy {
-    length: number;
-  }
-  
-  function countAndDescribe<T extends Lengthy>(element: T): [T, string] {
-    let descriptionText = 'Got no value.';
-    if (element.length === 1) {
-      descriptionText = 'Got 1 element.';
-    } else if (element.length > 1) {
-      descriptionText = 'Got ' + element.length + ' elements.';
-    }
-    return [element, descriptionText];
-  }
-  
-  console.log(countAndDescribe(['Sports', 'Cooking']));
-//   console.log(countAndDescribe(10));
+const numberStorage = new DataStorage<number>();
